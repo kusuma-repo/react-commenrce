@@ -13,6 +13,27 @@ const config = {
   measurementId: 'G-27LRVFPDDM',
 };
 
+export const createUserDoc = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+  // get document refrence to specifid path
+  const userRef = firestore.doc(`pengguna/${userAuth.uid}`);
+  const snapshot = await userRef.get();
+  if (!snapshot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log('error create user', error.message);
+    }
+  }
+  return userRef;
+};
 firebase.initializeApp(config);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
