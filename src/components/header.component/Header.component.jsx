@@ -9,35 +9,38 @@ import { selectCurrentUser } from '../../redux/user/User.selector';
 import CartIcon from '../cart.component/Cart.icon.component';
 
 import './Header.component.styes.scss';
-const Header = ({ currentUser, hidden }) => (
-  <div className="header">
-    <Link className="logo-container" to="/">
-      <Logo className="logo" />
-    </Link>
-    <div className="options">
-      <Link className="option" to="/shop">
-        SHOP
+const Header = ({ setcurrentUser, hidden }) => {
+  console.log(setcurrentUser);
+  return (
+    <div className="header">
+      <Link className="logo-container" to="/">
+        <Logo className="logo" />
       </Link>
-      <Link className="option" to="/shop">
-        CONTACT
-      </Link>
-      {currentUser ? (
-        <div className="option" onClick={() => auth.signOut()}>
-          SIGN OUT
-        </div>
-      ) : (
-        <Link className="option" to="/signin">
-          SIGN IN
+      <div className="options">
+        <Link className="option" to="/shop">
+          SHOP
         </Link>
-      )}
-      <CartIcon />
+        <Link className="option" to="/shop">
+          CONTACT
+        </Link>
+        {setcurrentUser ? (
+          <div className="option" onClick={() => auth.signOut()}>
+            SIGN OUT
+          </div>
+        ) : (
+          <Link className="option" to="/sign">
+            SIGN IN
+          </Link>
+        )}
+        <CartIcon />
+      </div>
+      {hidden ? null : <CartDropdown />}
     </div>
-    {hidden ? null : <CartDropdown />}
-  </div>
-);
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
+  setcurrentUser: selectCurrentUser,
   hidden: selectCartHidden,
 });
 
