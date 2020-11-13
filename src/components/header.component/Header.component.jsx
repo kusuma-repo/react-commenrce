@@ -10,7 +10,6 @@ import CartIcon from '../cart.component/Cart.icon.component';
 
 import './Header.component.styes.scss';
 const Header = ({ setcurrentUser, hidden }) => {
-  console.log(setcurrentUser);
   return (
     <div className="header">
       <Link className="logo-container" to="/">

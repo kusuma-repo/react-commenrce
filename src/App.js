@@ -26,6 +26,7 @@ class App extends React.Component {
         });
       } else {
         setCurrentUser(user);
+        //addCollectionAddDocuments('directory', directory);
       }
     });
   }
