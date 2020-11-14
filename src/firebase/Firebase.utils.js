@@ -34,6 +34,15 @@ export const createUserDoc = async (userAuth, additionalData) => {
   }
   return userRef;
 };
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
+};
+
 export const convertCollectionSnapshotToMap = (collections) => {
   const transformCollection = collections.docs.map((doc) => {
     const { title, items } = doc.data();
