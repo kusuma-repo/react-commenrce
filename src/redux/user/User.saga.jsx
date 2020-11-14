@@ -4,6 +4,8 @@ import {
   SignInFailed,
   signOutSuccess,
   signOutFailure,
+  signUpSuccess,
+  signUpFailure,
 } from './User.action';
 
 import {
@@ -15,9 +17,9 @@ import {
 
 import { takeLatest, call, all, put } from 'redux-saga/effects';
 
-export function* getUserSnapshotRef(userAuth) {
+export function* getUserSnapshotRef(userAuth, additionalData) {
   try {
-    const userRef = yield call(createUserDoc, userAuth);
+    const userRef = yield call(createUserDoc, userAuth, additionalData);
     const snapShotUser = yield userRef.get();
     yield put(SignInSuccess({ id: snapShotUser.id, ...snapShotUser.data() }));
   } catch (error) {
@@ -32,6 +34,19 @@ export function* signOutgen() {
   } catch (error) {
     yield put(signOutFailure);
   }
+}
+
+export function* signUpgen({ payload: { email, password, displayName } }) {
+  try {
+    const { user } = yield auth.createUserWithEmailAndPassword(email, password);
+    yield put(signUpSuccess({ user, additionalData: { displayName } }));
+  } catch (error) {
+    yield put(signUpFailure(error));
+  }
+}
+
+export function* signInAfterSignUp({ payload: { user, additionalData } }) {
+  yield getUserSnapshotRef(user, additionalData);
 }
 
 export function* signInWithGoogle() {
@@ -62,6 +77,14 @@ export function* isUserAuthenticated() {
   }
 }
 
+export function* onSignUpgen() {
+  yield takeLatest(userActionTypes.SIGN_UP_START, signUpgen);
+}
+
+export function* onSignUpSuccessgen() {
+  yield takeLatest(userActionTypes.SIGN_UP_SUCCESS, signInAfterSignUp);
+}
+
 export function* onSignOutgen() {
   yield takeLatest(userActionTypes.SIGN_OUT_START, signOutgen);
 }
@@ -85,5 +108,7 @@ export function* userSaga() {
     call(onEmailSignInStart),
     call(onCheckSessionUser),
     call(onSignOutgen),
+    call(onSignUpgen),
+    call(onSignUpSuccessgen),
   ]);
 }
