@@ -2,17 +2,18 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-import { sellectCollectionIsFetching } from '../../redux/collections/Shop.selector';
-import CollectionOverview from './Collections.overview';
+import { sellectDirectoryIsFetching } from '../../redux/directory/Directory.selector';
+
+import DirectoryMenu from './Directory.component';
 import LoadingSpinner from '../loading.component/loading.spiner.component';
 
 const mapStateToProps = createStructuredSelector({
-  isLoading: sellectCollectionIsFetching,
+  isLoading: sellectDirectoryIsFetching,
 });
 
-const CollectionOverviewContainer = compose(
+const DirectoryContainer = compose(
   connect(mapStateToProps),
   LoadingSpinner
-)(CollectionOverview);
+)(DirectoryMenu);
 
-export default CollectionOverviewContainer;
+export default DirectoryContainer;

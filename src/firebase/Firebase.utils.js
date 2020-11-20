@@ -42,6 +42,21 @@ export const getCurrentUser = () => {
     }, reject);
   });
 };
+export const convertDirectoryToMap = (directory) => {
+  const transformDirectory = directory.docs.map((doc) => {
+    const { id, title, imageUrl, linkUrl, size } = doc.data();
+    return {
+      id,
+      title,
+      imageUrl,
+      linkUrl,
+      size,
+    };
+  });
+  return transformDirectory.sort((value1, value2) => {
+    return value1.id - value2.id;
+  });
+};
 
 export const convertCollectionSnapshotToMap = (collections) => {
   const transformCollection = collections.docs.map((doc) => {

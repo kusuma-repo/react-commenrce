@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { auth, createUserDoc } from '../../firebase/Firebase.utils';
 
 import { signUpStart } from '../../redux/user/User.action';
 
