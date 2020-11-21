@@ -52,8 +52,7 @@ export function* signInAfterSignUp({ payload: { user, additionalData } }) {
 export function* signInWithGoogle() {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider);
-
-    getUserSnapshotRef(user);
+    yield getUserSnapshotRef(user);
   } catch (error) {
     yield put(SignInFailed(error));
   }
@@ -62,7 +61,7 @@ export function* signInWithGoogle() {
 export function* signInWithEmailPassword({ payload: { email, password } }) {
   try {
     const { user } = yield auth.signInWithEmailAndPassword(email, password);
-    getUserSnapshotRef(user);
+    yield getUserSnapshotRef(user);
   } catch (error) {
     yield put(SignInFailed(error));
   }

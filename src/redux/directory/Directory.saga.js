@@ -18,7 +18,7 @@ export function* fetchDirectoryAsync() {
     const directoryMap = yield call(convertDirectoryToMap, snapShot);
     yield put(fetchdirectorySuccess(directoryMap));
   } catch (error) {
-    put(fetchdirectoryFailure(error.message));
+    yield put(fetchdirectoryFailure(error.message));
   }
 }
 
