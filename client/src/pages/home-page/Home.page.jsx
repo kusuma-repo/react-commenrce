@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './Home.styles.scss';
+import { HomePageContainer } from './Home.styles';
 import { connect } from 'react-redux';
 import { fetchdirectoryStart } from '../../redux/directory/Directory.action';
 
@@ -11,9 +11,9 @@ const HomePage = ({ fetchdirectoryStart }) => {
   }, [fetchdirectoryStart]);
 
   return (
-    <div className="homepage">
+    <HomePageContainer>
       <DirectoryContainer />
-    </div>
+    </HomePageContainer>
   );
 };
 

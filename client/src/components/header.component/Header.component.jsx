@@ -1,4 +1,10 @@
-import { Link } from 'react-router-dom';
+import {
+  HeaderContainer,
+  LogoContainer,
+  OptionContainer,
+  OptionLink,
+} from './Header.styles';
+
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
@@ -11,33 +17,26 @@ import { selectCurrentUser } from '../../redux/user/User.selector';
 import CartDropdown from '../cart.dropdown.component/Cart.dropdown.component';
 import CartIcon from '../cart.component/Cart.icon.component';
 
-import './Header.component.styes.scss';
 const Header = ({ setcurrentUser, hidden, signOutStart }) => {
   return (
-    <div className="header">
-      <Link className="logo-container" to="/">
+    <HeaderContainer>
+      <LogoContainer to="/">
         <Logo className="logo" />
-      </Link>
-      <div className="options">
-        <Link className="option" to="/shop">
-          SHOP
-        </Link>
-        <Link className="option" to="/shop">
-          CONTACT
-        </Link>
+      </LogoContainer>
+      <OptionContainer>
+        <OptionLink to="/shop">SHOP</OptionLink>
+        <OptionLink to="/contact">CONTACT</OptionLink>
         {setcurrentUser ? (
           <div className="option" onClick={signOutStart}>
             SIGN OUT
           </div>
         ) : (
-          <Link className="option" to="/sign">
-            SIGN IN
-          </Link>
+          <OptionLink to="/sign">SIGN IN</OptionLink>
         )}
         <CartIcon />
-      </div>
+      </OptionContainer>
       {hidden ? null : <CartDropdown />}
-    </div>
+    </HeaderContainer>
   );
 };
 

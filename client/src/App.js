@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import './App.css';
+import { GlobalStyle } from './global.styles';
+
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectCurrentUser } from './redux/user/User.selector';
@@ -12,6 +13,9 @@ import SignInAndSignUp from './pages/sign.in-sign.up-page/Sing.in.Sign.up';
 import HomePage from './pages/home-page/Home.page';
 import ShopPage from './pages/shop-page/Shop-page';
 import CheckoutPage from './pages/checkout-page/Checkout.page.jsx';
+import ContactForm from './components/contact.component/Contact.component';
+
+//import CheckoutExp from './components/checkout-exp/Checkout';
 
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
@@ -19,11 +23,13 @@ const App = ({ checkUserSession, currentUser }) => {
   }, [checkUserSession]);
 
   return (
-    <div className="App">
+    <div>
+      <GlobalStyle />
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/shop" component={ShopPage} />
+        <Route path="/contact" component={ContactForm} />
         <Route exact path="/checkout" component={CheckoutPage} />
         <Route
           exact

@@ -4,7 +4,7 @@ export const addItemsToCart = (cartItems, newItemsCart) => {
   );
 
   if (existingCart) {
-    return cartItems.map((cartItem) =>
+    const increaseQuant = cartItems.map((cartItem) =>
       cartItem.id === newItemsCart.id
         ? {
             ...cartItem,
@@ -12,8 +12,19 @@ export const addItemsToCart = (cartItems, newItemsCart) => {
           }
         : cartItem
     );
+    return increaseQuant.map((cartItem) =>
+      cartItem.id === newItemsCart.id
+        ? {
+            ...cartItem,
+            subtotal: cartItem.quantity * cartItem.price,
+          }
+        : cartItem
+    );
   }
-  return [...cartItems, { ...newItemsCart, quantity: 1 }];
+  return [
+    ...cartItems,
+    { ...newItemsCart, quantity: 1, subtotal: newItemsCart.price },
+  ];
 };
 
 export const removeItemCart = (cartItems, cartItemRemove) => {
@@ -23,9 +34,20 @@ export const removeItemCart = (cartItems, cartItemRemove) => {
   if (existingCart.quantity === 1) {
     return cartItems.filter((cartItem) => cartItem.id !== cartItemRemove.id);
   }
-  return cartItems.map((cartItem) =>
+  const decreaseQuant = cartItems.map((cartItem) =>
     cartItem.id === cartItemRemove.id
-      ? { ...cartItem, quantity: cartItem.quantity - 1 }
+      ? {
+          ...cartItem,
+          quantity: cartItem.quantity - 1,
+        }
+      : cartItem
+  );
+  return decreaseQuant.map((cartItem) =>
+    cartItem.id === cartItemRemove.id
+      ? {
+          ...cartItem,
+          subtotal: cartItem.quantity * cartItem.price,
+        }
       : cartItem
   );
 };
